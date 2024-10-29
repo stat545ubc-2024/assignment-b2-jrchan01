@@ -1,0 +1,76 @@
+---
+title: "Assignment B2"
+output: github_document
+date: "2024-10-29"
+---
+# Assignment B2
+
+In this assignment I will practice making my own R package.
+
+## Exercise 1: Function(s)
+For this exercise I need to render the documentation for my function in the package. I have chosen to use the same function I submitted for assignment B1. 
+
+First I will load the packages that I will need to use in this assignment.
+
+```{r}
+library(gapminder)
+library(roxygen2)
+library(devtools)
+library(usethis)
+library(testthat)
+```
+
+Now I will render the documentation for my function in the package. 
+#' @title Calculate the coefficient of variation
+
+#' @description This calculates the coefficient of variation (standard deviation divded by the mean) to assess variability in the dataset. 
+
+#' @param .x. The variable of interest we use from the dataset to calculate the coefficient of variation. I am using the label "x" to represent the variable of interest. I also chose to use "x" as this is common notation used in field of statistics.
+#' @param .na.rm. This is a logical argument used to ensure that any missing values (NA) are removed from the dataset. I have used the label na.arm as this is the common label used in this field when defining what to do when there is missing data (i.e., NAs) in the dataset. 
+
+#' @return A numeric value is returned that tells us what the coefficient of variation is. 
+
+#' @examples
+#' cv(gapminder$lifeExp)
+#' cv(gapminder$pop)
+#' cv(gapminder$gdpPercap)
+#' @export
+```{r}
+cv_function <- function(x, na.rm = TRUE) {
+  if (!is.numeric(x)) {
+    stop("Input must be numeric")
+  }
+  mean_value <- mean(x, na.rm = na.rm) 
+  sd_value <- stats::sd(x, na.rm = na.rm)
+  return((sd_value / mean_value) * 100)
+}
+```
+
+I created a new file named cv and saved this function to the R/ folder in my cv package. I then ran document() in the console to create the .Rd help file in the man/ folder. I can test that everything is working properly by running the following chunk of code.
+
+```{r}
+?cv_function
+```
+
+This produces the correct documentation with my roxygen2 tags showing all of the information. 
+
+Lastly, I want to connect this package to github using the follow chunk of code.
+
+## Exercise 2: High Level Documentation 
+I will create a README Rmd file where I will write out the package description, installation instructions, and demonstrated usage.  
+
+```{r}
+#generate a README file#
+use_readme_rmd()
+```
+As an example, the code used to create the README file is included above. 
+
+## Exercise 3: DESCRIPTION FILE
+
+Now I will finish filling out the description file. I already have the title and short description listed. I have also picked a license by running use_mit_license("Jessie Chan"). 
+
+I updated the version number so that it reflects the correct version and after that, my description file is complete. Next, I added in dependencies by putting an "imports" section in the description and listing out the packages I want to import. These were the gapminder package and stats package.  To illustrate some calls from external packages I called from the stats package, which means I changed the code in my function from just sd to stats::sd to illustrate I understand how to do this. After this I ran the devtools::document() function to save everything.
+
+## Exercise 4: Tests
+
+For the final exercise, I will install unit tests into my package. First, I will create a test file (use_testthat()), create a file (use_test("cv_function")), and then copy the tests I used for assignment B1 into this folder. After my tests have been copied I will run devtools::test() to ensure my tests still pass. 
