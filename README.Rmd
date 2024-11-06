@@ -25,7 +25,7 @@ The goal of cv is to provide a function for calculating the coefficient of varia
 You can install the development version of cv like so:
 
 ```{r}
-install_github("stat545ubc-2024/assignment-b2-jrchan01")
+devtools::install_github("stat545ubc-2024/assignment-b2-jrchan01")
 ```
 
 ## Example
@@ -38,7 +38,7 @@ library(cv)
 ## first load the gapminder library ##
 library(gapminder)
 ## Now run the calculation ##
-cv(gapminder$pop)
+cv_function(gapminder$pop)
 ```
 
 knit to md file
